@@ -37,7 +37,7 @@ for x in range(len(data)):
         source_code = requests.get(data[x])
         soup = BeautifulSoup(source_code.content, 'lxml')
         test=soup.find_all('h1')
-        print("There are "+str(len(test))+" h1 Tags on this link, which are:\n")
+        print("There are "+str(len(test))+" h1 Tags on this link, which is/are:\n")
         for page in test:
               print(page.prettify())
               print("\n")
