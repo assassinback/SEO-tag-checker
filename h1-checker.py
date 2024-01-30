@@ -37,7 +37,7 @@ for x in range(len(data)):
 x=0
 for x in range(len(data)):
     try:
-        if(data[x].find("javascript:void(0)")>=0 or data[x].find(".png")>=0 or data[x].find(".jpg")>=0 or data[x].find("mailto:")>=0 or data[x].find("tel:")>=0 or data[x].find("propertymanagerwebsites")>0): 
+        if data[x].find("javascript:void(0)")>=0 or data[x].find(".png")>=0 or data[x].find(".jpg")>=0 or data[x].find("mailto:")>=0 or data[x].find("tel:")>=0 or data[x].find("propertymanagerwebsites")>=0: 
             data.remove(data[x])
             x=x-1
     except Exception as e:
@@ -57,13 +57,13 @@ for x in range(len(data)):
             if script.has_attr('data-src'):
                 continue;
             else:
-                print("Image with following code does not have data-src attribute")
+                print("Image with following code on page "+data[x]+" does not have data-src attribute")
                 print(script)
         for script in images:
             if script.has_attr('alt'):
                 continue;
             else:
-                print("Image with following code does not have alt attribute")
+                print("Image with following code on page "+data[x]+" does not have alt attribute")
                 print(script)
         if len(test)>0:
             continue;
