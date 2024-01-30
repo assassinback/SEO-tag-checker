@@ -2,20 +2,23 @@ import requests
 from bs4 import BeautifulSoup
 import re
 import time
+# Home Page link
 home_link="https://laureltreepropertymanagement.nesthub.com"
 source_code = requests.get(home_link)
 soup = BeautifulSoup(source_code.content, 'lxml')
 data = []
 links = []
+#remove duplicates
 def remove_duplicates(l): # remove duplicates and unURL string
     for item in l:
         match = re.search("(?P<url>https?://[^\s]+)", item)
         if match is not None:
             links.append((match.group("url")))
-
+#Find all Links
 for link in soup.find_all('a', href=True):
     data.append(str(link.get('href')))
 remove_duplicates(data)
+#remove useless links
 x=0
 for x in range(len(data)):
     x=0
@@ -23,12 +26,14 @@ for x in range(len(data)):
         continue;
     else:
         data.remove(data[x])
+#fix links that are '/' links
 x=0
 for x in range(len(data)):
     if(data[x].find(home_link)>0 or data[x].find("portals")>0):
         continue
     else:
         data[x]=home_link+data[x]
+#remove useless links
 x=0
 for x in range(len(data)):
     try:
@@ -37,14 +42,17 @@ for x in range(len(data)):
             x=x-1
     except Exception as e:
         continue;
+#perform checking
 x=0
 data = list(dict.fromkeys(data))
 for x in range(len(data)):
     try:
+        #get data from links we found on line 17
         source_code = requests.get(data[x])
         soup = BeautifulSoup(source_code.content, 'lxml')
         test=soup.find_all('h1')
         images=soup.find_all('img')
+        #print missing alt and src attributes
         for script in images:
             if script.has_attr('data-src'):
                 continue;
@@ -64,6 +72,7 @@ for x in range(len(data)):
             #       print(page.prettify())
             #       print("\n")
         else:
+            #print missing h1 tags
             print("There are "+str(len(test))+" h1 Tags on link "+data[x]+"\n")            
     except Exception as e:
         continue;
