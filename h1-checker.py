@@ -1,3 +1,12 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Thu Feb  1 14:44:27 2024
+
+@author: ziakh
+"""
+
+
+
 import requests
 from bs4 import BeautifulSoup
 import re
