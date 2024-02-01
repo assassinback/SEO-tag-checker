@@ -37,7 +37,7 @@ for x in range(len(data)):
 x=0
 for x in range(len(data)):
     try:
-        if data[x].find("javascript:void(0)")>=0 or data[x].find(".png")>=0 or data[x].find(".jpg")>=0 or data[x].find("mailto:")>=0 or data[x].find("tel:")>=0 or data[x].find("propertymanagerwebsites")>=0: 
+        if data[x].find("javascript:void(0)")>=0 or data[x].find(".png")>=0 or data[x].find(".jpg")>=0 or data[x].find("mailto:")>=0 or data[x].find("tel:")>=0 or data[x].find("propertymanagerwebsites")>=0 or data[x].find("portal")>=0 or data[x].find("rentvine")>=0: 
             data.remove(data[x])
             x=x-1
     except Exception as e:
@@ -54,7 +54,7 @@ for x in range(len(data)):
         images=soup.find_all('img')
         #print missing alt and src attributes
         for script in images:
-            if script.has_attr('data-src'):
+            if script.has_attr('data-src') or script.has_attr('src'):
                 continue;
             else:
                 print("Image with following code on page "+data[x]+" does not have data-src attribute")
