@@ -33,18 +33,20 @@ for x in range(len(data)):
         continue
     else:
         data[x]=home_link+data[x]
+#remove duplicates
+data = list(dict.fromkeys(data))
 #remove useless links
-x=0
-for x in range(len(data)):
-    try:
-        if data[x].find("javascript:void(0)")>=0 or data[x].find(".png")>=0 or data[x].find(".jpg")>=0 or data[x].find("mailto:")>=0 or data[x].find("tel:")>=0 or data[x].find("propertymanagerwebsites")>=0 or data[x].find("portal")>=0 or data[x].find("rentvine")>=0: 
-            data.remove(data[x])
-            x=x-1
-    except Exception as e:
-        continue;
+for x in data:
+    # try:
+    if x.find("javascript:void(0)")>=0 or x.find(".png")>=0 or x.find(".jpg")>=0 or x.find("mailto:")>=0 or x.find("tel:")>=0 or x.find("propertymanagerwebsites")>=0 or x.find("portals")>=0 or x.find("rentvine")>=0 or x.find("zillow")>=0: 
+        print(x)
+        data.remove(x)
+    # except Exception as e:
+    #     print("here")
+    #     continue;
 #perform checking
 x=0
-data = list(dict.fromkeys(data))
+
 for x in range(len(data)):
     try:
         #get data from links we found on line 17
@@ -52,6 +54,7 @@ for x in range(len(data)):
         soup = BeautifulSoup(source_code.content, 'lxml')
         test=soup.find_all('h1')
         images=soup.find_all('img')
+        # print("here")
         #print missing alt and src attributes
         for script in images:
             if script.has_attr('data-src') or script.has_attr('src'):
@@ -66,6 +69,7 @@ for x in range(len(data)):
                 print("Image with following code on page "+data[x]+" does not have alt attribute")
                 print(script)
         if len(test)>0:
+            print("Link Tested: "+data[x])
             continue;
             # print("There is/are "+str(len(test))+" h1 Tags on link "+data[x]+", which is/are:\n")
             # for page in test:
@@ -73,7 +77,9 @@ for x in range(len(data)):
             #       print("\n")
         else:
             #print missing h1 tags
-            print("There are "+str(len(test))+" h1 Tags on link "+data[x]+"\n")            
+            print("\nThere are "+str(len(test))+" h1 Tags on link "+data[x]+"\n")            
+        
+        print("Link Tested: "+data[x])
     except Exception as e:
         continue;
         # print("invalid link "+data[x]+"\n")
