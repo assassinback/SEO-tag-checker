@@ -39,7 +39,7 @@ data = list(dict.fromkeys(data))
 for x in data:
     # try:
     if x.find("javascript:void(0)")>=0 or x.find(".png")>=0 or x.find(".jpg")>=0 or x.find("mailto:")>=0 or x.find("tel:")>=0 or x.find("propertymanagerwebsites")>=0 or x.find("portals")>=0 or x.find("rentvine")>=0 or x.find("zillow")>=0: 
-        print(x)
+        # print(x)
         data.remove(x)
     # except Exception as e:
     #     print("here")
