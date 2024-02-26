@@ -64,11 +64,29 @@ for x in range(len(data)):
         #print missing alt and src attributes
         for script in images:
             if script.has_attr('href') and script.get('href')!="" and script.get('href')!="#":
-                continue;
+                # print(script.get('href'))
+                try:
+                    if script.get('href') in data:
+                        continue;
+                    request1 = requests.get(script.get('href'))
+                    if request1.status_code == 200:    
+                        data.append(script.get('href'))
+                        continue;
+                    else:
+                        print("Link with following code on page "+data[x]+" have broken link")
+                        print(script)
+                except requests.exceptions.ConnectionError as e1:
+                    print("Link with following code on page "+data[x]+" have broken link")
+                    print(script)
+                except Exception as e:
+                    # print(e)
+                    continue;
             else:
-                print("Link with following code on page "+data[x]+" does not have href attribute")
+                print("Link with following code on page "+data[x]+" does not have link or href attribute")
                 print(script)
+            
         print("Link Tested: "+data[x])
     except Exception as e:
+        # print(e)
         continue;
         # print("invalid link "+data[x]+"\n")
