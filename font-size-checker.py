@@ -19,10 +19,9 @@ driver = webdriver.Chrome(service=service, options=options)
 driver.get('https://laureltreepropertymanagement.nesthub.com')
 driver.minimize_window()
 page = driver.current_url
-# elems = driver.find_elements_by_tag_name('*')
 
-print(driver.find_element(By.XPATH, "/html/body").text)
-# page = browser.current_url
-# print(page)
-# with open('baidu.html', 'w') as f:
-#     f.write(page)
+# print(driver.page_source)
+ele = driver.find_element(By.CSS_SELECTOR,"h1")
+
+for element in ele:
+    print(element);

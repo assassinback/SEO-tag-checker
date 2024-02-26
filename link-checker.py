@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-Created on Thu Feb  1 14:44:27 2024
+Created on Mon Feb 26 19:00:53 2024
 
-@author: ziakh
+@author: 20four7VA-Zia-1289
 """
-
-
 
 import requests
 from bs4 import BeautifulSoup
@@ -61,33 +59,15 @@ for x in range(len(data)):
         #get data from links we found on line 17
         source_code = requests.get(data[x])
         soup = BeautifulSoup(source_code.content, 'lxml')
-        test=soup.find_all('h1')
-        images=soup.find_all('img')
+        images=soup.find_all('a')
         # print("here")
         #print missing alt and src attributes
         for script in images:
-            if script.has_attr('data-src') or script.has_attr('src'):
+            if script.has_attr('href') and script.get('href')!="" and script.get('href')!="#":
                 continue;
             else:
-                print("Image with following code on page "+data[x]+" does not have data-src attribute")
+                print("Link with following code on page "+data[x]+" does not have href attribute")
                 print(script)
-        for script in images:
-            if script.has_attr('alt'):
-                continue;
-            else:
-                print("Image with following code on page "+data[x]+" does not have alt attribute")
-                print(script)
-        if len(test)>0:
-            print("Link Tested: "+data[x])
-            continue;
-            # print("There is/are "+str(len(test))+" h1 Tags on link "+data[x]+", which is/are:\n")
-            # for page in test:
-            #       print(page.prettify())
-            #       print("\n")
-        else:
-            #print missing h1 tags
-            print("\nThere are "+str(len(test))+" h1 Tags on link "+data[x]+"\n")            
-        
         print("Link Tested: "+data[x])
     except Exception as e:
         continue;
