@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-Created on Thu Feb  1 14:44:27 2024
+Created on Mon Feb 26 19:00:53 2024
 
-@author: ziakh
+@author: Zia-ur-Rehman Khan
 """
-
-
 
 import requests
 from bs4 import BeautifulSoup
@@ -54,9 +52,10 @@ for x in data:
     #     print("here")
     #     continue;
 #perform checking
-x=0
+x=-1
 
-for x in range(len(data)):
+while x < len(data):
+    x=x+1
     try:
         #get data from links we found on line 17
         source_code = requests.get(data[x])
@@ -77,8 +76,35 @@ for x in range(len(data)):
             else:
                 print("Image with following code on page "+data[x]+" does not have alt attribute")
                 print(script)
+        images=soup.find_all('a')
+        for script in images:
+            if script.has_attr('href') and script.get('href')!="" and script.get('href')!="#":
+                # print(script.get('href'))
+                try:
+                    if script.get('href') in data:
+                        continue;
+                    request1 = requests.get(script.get('href'))
+                    if request1.status_code == 200:    
+                        if script.get('href').find(home_link)>=0:
+                            data.append(script.get('href'))
+                        continue;
+                    else:
+                        print("Link with following code on page "+data[x]+" have broken link")
+                        print(script)
+                except requests.exceptions.ConnectionError as e1:
+                    print("Link with following code on page "+data[x]+" have broken link")
+                    print(script)
+                except Exception as e:
+                    # print(e)
+                    continue;
+            else:
+                print("Link with following code on page "+data[x]+" does not have link or href attribute")
+                print(script)
         if len(test)>0:
             print("Link Tested: "+data[x])
+            continue;
+        elif len(test)>1:
+            print("There are more than one h1's on link': "+data[x])
             continue;
             # print("There is/are "+str(len(test))+" h1 Tags on link "+data[x]+", which is/are:\n")
             # for page in test:

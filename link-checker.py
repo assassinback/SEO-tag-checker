@@ -2,7 +2,7 @@
 """
 Created on Mon Feb 26 19:00:53 2024
 
-@author: 20four7VA-Zia-1289
+@author: Zia-ur-Rehman Khan
 """
 
 import requests
